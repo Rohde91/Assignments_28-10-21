@@ -1,9 +1,6 @@
 package com.company;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.util.Arrays;
+import java.io.*;
 import java.util.Scanner;
 
 public class NumberInputAndDivision {
@@ -47,8 +44,92 @@ public class NumberInputAndDivision {
         }
     }
 
+    static void skriv(){
+        try {
+            PrintWriter ud = new PrintWriter("MyFileEks.txt");
+            int i = 1;
+            String navn = "Bob";
+            float tal = (float) 1.2;
+            //format bruges til mellemrum, dette sker sammenkoblet med %d (integer), %s (String), %f(float)
+            ud.format("%d %s %f", i, navn, tal);
+            ud.close();
+
+        }
+        catch (FileNotFoundException exception){
+            exception.printStackTrace();
+        }
+
+    }
+
+    //datainput filer:
+    static void writeDataFile(){
+        try {
+            DataOutputStream output = new DataOutputStream(new FileOutputStream("tempFile.dat"));
+            int i = 1;
+            String navn = "Ross";
+            float tal = (float) 2.32;
+            output.writeInt(i);
+            output.writeUTF(navn);
+            output.writeFloat(tal);
+            output.close();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    static void readDataFile(){
+        try {
+            DataInputStream input = new DataInputStream(new FileInputStream("tempFile.dat"));
+            int i;
+            String navn;
+            float tal;
+            i=input.readInt();
+            navn = input.readUTF();
+            tal = input.readFloat();
+
+            System.out.format("%d %s %f", i, navn, tal);
+            input.close();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    //Funktionen tager et objekt
+    static void skriv2(Person p){
+        try {
+            PrintWriter ud = new PrintWriter("MyFileEks2.txt");
+            //format bruges til mellemrum, dette sker sammenkoblet med %d (integer), %s (String), %f(double)
+            ud.format("%d %s %f", p.getNr(), p.getNavn(), p.getTal());
+            ud.close();
+
+        }
+        catch (FileNotFoundException exception){
+            exception.printStackTrace();
+        }
+    }
+
+    //returner person
+    static Person indtxtFil(){
+
+        Person p = new Person();
+        try {
+            File in = new File("MyFileEks2.txt");
+            Scanner scan = new Scanner(in);
+            p.setNr(scan.nextInt());
+            p.setNavn(scan.next());
+            p.setTal(scan.nextDouble());
+            scan.close();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return p;
+    }
+
     public static void numberInput() {
-        Scanner scan = new Scanner(System.in);
+       /* Scanner scan = new Scanner(System.in);
         System.out.println("Enter 10 numbers");
 
 
@@ -71,6 +152,20 @@ public class NumberInputAndDivision {
         double g;
         g = snit(numbers,input); //Beder om numbers og input
         System.out.println(g);
+*/
+        //bruger nu funktionen skriv.
+       /* skriv();
+        writeDataFile();
+        readDataFile();
+*/
+       // Person p = new Person(2,"Bobs", 9.2);
+      //  skriv2(p);
+       // indtxtFil();
+
+        Person q;
+        q = indtxtFil();
+        System.out.format("\n%d %s %f", q.getNr(), q.getNavn(), q.getTal());
+
 
     }
     //TODO try og catch for at smide ind i textfil
